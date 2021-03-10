@@ -13,6 +13,10 @@ namespace WasaaMP {
 		void Start () {
 			caught = false ;
 		}
+
+		void Update() {
+			
+		}
 		
 		public void Catch () {
 			print ("Catch ?") ;
@@ -52,6 +56,7 @@ namespace WasaaMP {
 				print (name + " : CursorTool OnTriggerEnter") ;
 				target = other.gameObject.GetComponent<Interactive> () ;
 				if (target != null) {
+					target.startHighlight();
 					target.photonView.RPC ("ShowCatchable", RpcTarget.All) ;
 					PhotonNetwork.SendAllOutgoingCommands () ;
 				}
@@ -62,6 +67,7 @@ namespace WasaaMP {
 			if (! caught) {
 				print (name + " : CursorTool OnTriggerExit") ;
 				if (target != null) {
+					target.stopHighlight();
 					target.photonView.RPC ("HideCatchable", RpcTarget.All) ;
 					PhotonNetwork.SendAllOutgoingCommands () ;
 					target = null ;

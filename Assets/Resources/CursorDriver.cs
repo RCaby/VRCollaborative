@@ -15,9 +15,10 @@ namespace WasaaMP {
 				theCamera = (Camera)GameObject.FindObjectOfType (typeof(Camera)) ;
 				active = false ;
 				cursor = GetComponent<CursorTool> () ;
+				cursor.transform.SetParent(theCamera.transform.parent);
 			}
 		}
-		
+
 		void Update () {
 			if (photonView.IsMine  || ! PhotonNetwork.IsConnected) {
 				if (Input.GetButtonDown ("Fire1"))  {

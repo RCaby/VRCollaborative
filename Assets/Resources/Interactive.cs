@@ -6,28 +6,59 @@ using Photon.Pun;
 namespace WasaaMP {
     public class Interactive : MonoBehaviourPun {
 
-        private Color colorBeforeHighlight ;
-        private Color oldColor ;
-        private float oldAlpha ;
-
         private bool catchable = false ;
         private bool caught = false ;
-        void Start () {
-            
+        float transparencyValue;
+        Color lastColor;
+        bool objectHighlighted;
+        float highlightingSpeed = 0.5f;
+        Renderer objectRenderer;
+        public int numberOfPlayers;
+        public int numberOfPlayersNeeded;
+
+        void Start()
+        {
+            numberOfPlayers = 0;
+            transparencyValue = 1f;
+            objectRenderer = GetComponent<Renderer>();
+            lastColor = objectRenderer.material.color;
         }
 
         void Update () {
+            if (objectHighlighted) {
+            transparencyValue -= highlightingSpeed*Time.deltaTime;
+            if (transparencyValue < 0) 
+            {
+                highlightingSpeed *= -1;
+                transparencyValue = 0;
+            } else if (transparencyValue > 1) {
+                highlightingSpeed *= -1;
+                transparencyValue = 1;
+            }
+            objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, transparencyValue);
+            }
+        }
+
+        public void startHighlight() {
+            if (!objectHighlighted) {
+                transparencyValue = 1f;}
+            objectHighlighted = true;
             
+        }
+
+        public void stopHighlight() {
+            objectHighlighted = false;
+            transparencyValue = 1f;
         }
 
         [PunRPC] public void ShowCaught () {
             if (! caught) {
                 var rb = GetComponent<Rigidbody> () ;
                 rb.isKinematic = true ;
-                Renderer renderer = GetComponentInChildren <Renderer> () ;
-                oldColor = renderer.material.color ;
-                renderer.material.color = Color.yellow ;
+                objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, 1);
                 caught = true ;
+                objectHighlighted = false;
+                numberOfPlayers ++;
             }
         }
 
@@ -35,22 +66,19 @@ namespace WasaaMP {
             if (caught) {
                 var rb = GetComponent<Rigidbody> () ;
                 rb.isKinematic = false ;
-                Renderer renderer = GetComponentInChildren <Renderer> () ;
-                renderer.material.color = oldColor ;
+                objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, 1);
                 caught = false ;
+                objectHighlighted = false;
+                numberOfPlayers --;
             }
         }
 
         [PunRPC] public void ShowCatchable () {
             if (! caught) {
                 if (! catchable) {
-                    Renderer renderer = GetComponentInChildren <Renderer> () ;
-                    oldAlpha = renderer.material.color.a ;
-                    colorBeforeHighlight = renderer.material.color ;
-                    //Color c = renderer.material.color ;
-                    Color c = Color.cyan ;
-                    renderer.material.color = new Color (c.r, c.g, c.b, 0.5f) ;
                     catchable = true ;
+                    lastColor = objectRenderer.material.color;
+                    objectHighlighted = true;
                 }
             }
         }
@@ -58,10 +86,8 @@ namespace WasaaMP {
         [PunRPC] public void HideCatchable () {
             if (! caught) {
                 if (catchable) {
-                    Renderer renderer = GetComponentInChildren <Renderer> () ;
-                    //Color c = renderer.material.color ;
-                    Color c = colorBeforeHighlight ;
-                    renderer.material.color = new Color (c.r, c.g, c.b, oldAlpha) ;
+                    objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, 1);
+                    objectHighlighted = false;
                     catchable = false ;
                 }
             }
