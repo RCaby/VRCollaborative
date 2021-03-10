@@ -24,11 +24,12 @@ namespace WasaaMP {
 				print ("Catch :") ;
 				if ((! caught) && (transform != target.transform)) { // pour ne pas prendre 2 fois l'objet et lui faire perdre son parent
 					oldParent = target.transform.parent ;
-					target.transform.SetParent (transform) ;
+					//target.transform.SetParent (transform) ;
 					target.photonView.TransferOwnership (PhotonNetwork.LocalPlayer) ;
 					target.photonView.RPC ("ShowCaught", RpcTarget.All) ;
 					PhotonNetwork.SendAllOutgoingCommands () ;
 					caught = true ;
+					target.addCursorList(this);
 				}
 				print ("Catch !") ;
 			} else {
@@ -39,11 +40,12 @@ namespace WasaaMP {
 		public void Release () {
 			if (caught) {
 				print ("Release :") ;
-				target.transform.SetParent (oldParent) ;
+				//target.transform.SetParent (oldParent) ;
 				target.photonView.RPC ("ShowReleased", RpcTarget.All) ;
 				PhotonNetwork.SendAllOutgoingCommands () ;
 				print ("Release !") ;
 				caught = false ;
+				target.removeCursorList(this);
 			}
 		}
 

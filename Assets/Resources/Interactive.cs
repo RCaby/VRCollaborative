@@ -13,18 +13,23 @@ namespace WasaaMP {
         bool objectHighlighted;
         float highlightingSpeed = 0.5f;
         Renderer objectRenderer;
-        public int numberOfPlayers;
-        public int numberOfPlayersNeeded;
+        protected List<CursorTool> listCursors;
+        public int numberOfPlayersNeeded = 1;
 
         void Start()
         {
-            numberOfPlayers = 0;
             transparencyValue = 1f;
             objectRenderer = GetComponent<Renderer>();
             lastColor = objectRenderer.material.color;
+            listCursors = new List<CursorTool>();
         }
 
         void Update () {
+            if (caught && listCursors.Count >= numberOfPlayersNeeded) {
+                gameObject.transform.position = averagePosition();
+            }
+
+
             if (objectHighlighted) {
             transparencyValue -= highlightingSpeed*Time.deltaTime;
             if (transparencyValue < 0) 
@@ -58,7 +63,7 @@ namespace WasaaMP {
                 objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, 1);
                 caught = true ;
                 objectHighlighted = false;
-                numberOfPlayers ++;
+                
             }
         }
 
@@ -69,7 +74,6 @@ namespace WasaaMP {
                 objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, 1);
                 caught = false ;
                 objectHighlighted = false;
-                numberOfPlayers --;
             }
         }
 
@@ -91,6 +95,32 @@ namespace WasaaMP {
                     catchable = false ;
                 }
             }
+        }
+
+        public void addCursorList(CursorTool cursor) {
+            listCursors.Add(cursor);
+            Debug.Log("La liste " + listCursors.Count + "\n\n\n\n");
+        }
+
+        public void removeCursorList(CursorTool cursor) {
+            listCursors.Remove(cursor);
+            Debug.Log("La liste " + listCursors.Count + "\n\n\n\n");
+        }
+
+        Vector3 averagePosition() {
+            float x = 0;
+            float y = 0;
+            float z = 0;
+            int n = listCursors.Count;
+            foreach (CursorTool cursor in listCursors) {
+                x += cursor.transform.position.x;
+                y += cursor.transform.position.y;
+                z += cursor.transform.position.z;
+            }
+            x /= n;
+            y /= n;
+            z /= n;
+            return new Vector3(x, y, z);
         }
 
     }

@@ -615,8 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 880fdbbb41e080ec4b5f6caf94b2aa71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfPlayers: 0
-  numberOfPlayersNeeded: 0
+  numberOfPlayersNeeded: 2
 --- !u!1 &1391427662
 GameObject:
   m_ObjectHideFlags: 0
