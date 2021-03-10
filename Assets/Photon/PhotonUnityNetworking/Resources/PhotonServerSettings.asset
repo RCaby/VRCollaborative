@@ -41,4 +41,6 @@ MonoBehaviour:
   - ShowCatchable
   - ShowCaught
   - ShowReleased
+  - addCursorList
+  - removeCursorList
   DisableAutoOpenWizard: 1

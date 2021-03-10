@@ -97,14 +97,14 @@ namespace WasaaMP {
             }
         }
 
-        public void addCursorList(CursorTool cursor) {
+        [PunRPC] public void addCursorList(int cursorID) {
+            CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
             listCursors.Add(cursor);
-            Debug.Log("La liste " + listCursors.Count + "\n\n\n\n");
         }
 
-        public void removeCursorList(CursorTool cursor) {
+        [PunRPC] public void removeCursorList(int cursorID) {
+            CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
             listCursors.Remove(cursor);
-            Debug.Log("La liste " + listCursors.Count + "\n\n\n\n");
         }
 
         Vector3 averagePosition() {
