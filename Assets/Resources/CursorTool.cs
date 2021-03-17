@@ -28,6 +28,7 @@ namespace WasaaMP {
 					target.photonView.TransferOwnership (PhotonNetwork.LocalPlayer) ;
 					target.photonView.RPC ("ShowCaught", RpcTarget.All) ;
 					target.photonView.RPC ("addCursorList", RpcTarget.All, gameObject.GetComponent<PhotonView>().ViewID);
+					target.photonView.RPC("removeCursorListNotCaught", RpcTarget.All, gameObject.GetComponent<PhotonView>().ViewID);
 					PhotonNetwork.SendAllOutgoingCommands () ;
 					caught = true ;
 					
@@ -62,10 +63,12 @@ namespace WasaaMP {
 				if (target != null) {
 					target.startHighlight();
 					target.photonView.RPC ("ShowCatchable", RpcTarget.All) ;
+					target.photonView.RPC("addCursorListNotCaught", RpcTarget.All, gameObject.GetComponent<PhotonView>().ViewID);
 					PhotonNetwork.SendAllOutgoingCommands () ;
 				}
 			}
 		}
+
 
 		void OnTriggerExit (Collider other) {
 			if (! caught) {
@@ -73,12 +76,11 @@ namespace WasaaMP {
 				if (target != null) {
 					target.stopHighlight();
 					target.photonView.RPC ("HideCatchable", RpcTarget.All) ;
+					target.photonView.RPC("removeCursorListNotCaught", RpcTarget.All, gameObject.GetComponent<PhotonView>().ViewID);
 					PhotonNetwork.SendAllOutgoingCommands () ;
 					target = null ;
 				}
-			}
 		}
-
 	}
-
+}
 }

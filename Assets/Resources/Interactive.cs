@@ -14,6 +14,7 @@ namespace WasaaMP {
         float highlightingSpeed = 0.5f;
         Renderer objectRenderer;
         protected List<CursorTool> listCursors;
+        protected List<CursorTool> listCursorsNotCaught;
         public int numberOfPlayersNeeded = 1;
 
         void Start()
@@ -22,26 +23,37 @@ namespace WasaaMP {
             objectRenderer = GetComponent<Renderer>();
             lastColor = objectRenderer.material.color;
             listCursors = new List<CursorTool>();
+            listCursorsNotCaught = new List<CursorTool>();
         }
 
         void Update () {
+            print("Nb cursors : " + listCursorsNotCaught.Count);
             if (caught && listCursors.Count >= numberOfPlayersNeeded) {
                 gameObject.transform.position = averagePosition();
             }
 
-
-            if (objectHighlighted) {
-            transparencyValue -= highlightingSpeed*Time.deltaTime;
-            if (transparencyValue < 0) 
-            {
-                highlightingSpeed *= -1;
+            if (objectHighlighted && listCursorsNotCaught.Count >= numberOfPlayersNeeded) {
+                print("Fixed transparency");
                 transparencyValue = 0;
-            } else if (transparencyValue > 1) {
-                highlightingSpeed *= -1;
-                transparencyValue = 1;
+                objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, transparencyValue);
+                
             }
-            objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, transparencyValue);
+
+            else if (objectHighlighted && listCursorsNotCaught.Count < numberOfPlayersNeeded ) {
+                print("Cycling transparency");
+                transparencyValue -= highlightingSpeed*Time.deltaTime;
+                if (transparencyValue < 0) 
+                    {
+                        highlightingSpeed *= -1;
+                        transparencyValue = 0;
+                    } else if (transparencyValue > 1) {
+                        highlightingSpeed *= -1;
+                        transparencyValue = 1;
+                    }
+                objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, transparencyValue);
             }
+
+            
         }
 
         public void startHighlight() {
@@ -105,6 +117,16 @@ namespace WasaaMP {
         [PunRPC] public void removeCursorList(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
             listCursors.Remove(cursor);
+        }
+
+        [PunRPC] public void addCursorListNotCaught(int cursorID) {
+            CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
+            listCursorsNotCaught.Add(cursor);
+        }
+
+        [PunRPC] public void removeCursorListNotCaught(int cursorID) {
+            CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
+            listCursorsNotCaught.Remove(cursor);
         }
 
         Vector3 averagePosition() {
