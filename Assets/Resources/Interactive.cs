@@ -108,7 +108,9 @@ namespace WasaaMP {
         [PunRPC] public void addCursorList(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
             print("Add List " + cursor);
+            if (!listCursors.Contains(cursor)) {
             listCursors.Add(cursor);
+            }
         }
 
         [PunRPC] public void removeCursorList(int cursorID) {
@@ -120,7 +122,9 @@ namespace WasaaMP {
         [PunRPC] public void addCursorListNotCaught(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
             print("Add List Not Caught " + cursor);
+            if (!listCursorsNotCaught.Contains(cursor)) {
             listCursorsNotCaught.Add(cursor);
+            }
         }
 
         [PunRPC] public void removeCursorListNotCaught(int cursorID) {

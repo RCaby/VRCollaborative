@@ -43,4 +43,6 @@ MonoBehaviour:
   - ShowReleased
   - addCursorList
   - removeCursorList
+  - addCursorListNotCaught
+  - removeCursorListNotCaught
   DisableAutoOpenWizard: 1
