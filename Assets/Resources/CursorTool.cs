@@ -19,9 +19,9 @@ namespace WasaaMP {
 		}
 		
 		public void Catch () {
-			print ("Catch ?") ;
+			//print ("Catch ?") ;
 			if (target != null) {
-				print ("Catch :") ;
+				//print ("Catch :") ;
 				if ((! caught) && (transform != target.transform)) { // pour ne pas prendre 2 fois l'objet et lui faire perdre son parent
 					oldParent = target.transform.parent ;
 					//target.transform.SetParent (transform) ;
@@ -33,20 +33,20 @@ namespace WasaaMP {
 					caught = true ;
 					
 				}
-				print ("Catch !") ;
+				//print ("Catch !") ;
 			} else {
-				print ("Catch failed") ;
+				//print ("Catch failed") ;
 			}
 		}
 
 		public void Release () {
 			if (caught) {
-				print ("Release :") ;
+				//print ("Release :") ;
 				//target.transform.SetParent (oldParent) ;
 				target.photonView.RPC ("ShowReleased", RpcTarget.All) ;
 				target.photonView.RPC ("removeCursorList", RpcTarget.All,  gameObject.GetComponent<PhotonView>().ViewID);
 				PhotonNetwork.SendAllOutgoingCommands () ;
-				print ("Release !") ;
+				//print ("Release !") ;
 				caught = false ;
 				
 			}
@@ -58,7 +58,7 @@ namespace WasaaMP {
 
 		void OnTriggerEnter (Collider other) {
 			if (! caught) {
-				print (name + " : CursorTool OnTriggerEnter") ;
+				//print (name + " : CursorTool OnTriggerEnter") ;
 				target = other.gameObject.GetComponent<Interactive> () ;
 				if (target != null) {
 					target.startHighlight();
@@ -72,7 +72,7 @@ namespace WasaaMP {
 
 		void OnTriggerExit (Collider other) {
 			if (! caught) {
-				print (name + " : CursorTool OnTriggerExit") ;
+				//print (name + " : CursorTool OnTriggerExit") ;
 				if (target != null) {
 					target.stopHighlight();
 					target.photonView.RPC ("HideCatchable", RpcTarget.All) ;

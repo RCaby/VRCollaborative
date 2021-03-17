@@ -27,20 +27,18 @@ namespace WasaaMP {
         }
 
         void Update () {
-            print("Nb cursors : " + listCursorsNotCaught.Count);
+            
             if (caught && listCursors.Count >= numberOfPlayersNeeded) {
                 gameObject.transform.position = averagePosition();
             }
 
             if (objectHighlighted && listCursorsNotCaught.Count >= numberOfPlayersNeeded) {
-                print("Fixed transparency");
                 transparencyValue = 0;
                 objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, transparencyValue);
                 
             }
 
             else if (objectHighlighted && listCursorsNotCaught.Count < numberOfPlayersNeeded ) {
-                print("Cycling transparency");
                 transparencyValue -= highlightingSpeed*Time.deltaTime;
                 if (transparencyValue < 0) 
                     {
@@ -52,8 +50,6 @@ namespace WasaaMP {
                     }
                 objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, transparencyValue);
             }
-
-            
         }
 
         public void startHighlight() {
@@ -111,21 +107,25 @@ namespace WasaaMP {
 
         [PunRPC] public void addCursorList(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
+            print("Add List " + cursor);
             listCursors.Add(cursor);
         }
 
         [PunRPC] public void removeCursorList(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
+            print("Remove List" + cursor);
             listCursors.Remove(cursor);
         }
 
         [PunRPC] public void addCursorListNotCaught(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
+            print("Add List Not Caught " + cursor);
             listCursorsNotCaught.Add(cursor);
         }
 
         [PunRPC] public void removeCursorListNotCaught(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
+            print("Remove List Not Caught " + cursor);
             listCursorsNotCaught.Remove(cursor);
         }
 
