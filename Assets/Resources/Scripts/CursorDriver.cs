@@ -28,7 +28,7 @@ namespace WasaaMP {
 					cursor.Release () ;
 				}
 				if (Input.GetKeyDown (KeyCode.C)) {
-					cursor.CreateInteractiveCube () ;
+					cursor.CreateInteractiveObject () ;
 				}
 				if (Input.mousePosition != null) {
 					Vector3 point = new Vector3 () ;

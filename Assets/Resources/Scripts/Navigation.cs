@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 
@@ -15,8 +16,9 @@ namespace WasaaMP {
  
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
-
+        
         #endregion
+        Text text;
         void Awake () {
             // #Important
             // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
@@ -36,6 +38,7 @@ namespace WasaaMP {
                 cameraTransform.SetParent (transform) ;
                 cameraTransform.localPosition = cameraPositionOffset ;
                 cameraTransform.localRotation = cameraOrientationOffset ;
+                text = (Text) GameObject.Find("TextUI").GetComponent<Text>();
             }
         }
 
@@ -44,9 +47,10 @@ namespace WasaaMP {
                 var x = Input.GetAxis ("Horizontal") * Time.deltaTime * 150.0f ;
                 var z = Input.GetAxis ("Vertical") * Time.deltaTime * 3.0f ;
                 transform.Rotate (0, x, 0) ;
-                transform.Translate (0, 0, z) ;      
+                transform.Translate (0, 0, z) ; 
             }
         }
+        
 
     }
 

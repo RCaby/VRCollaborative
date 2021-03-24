@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 namespace WasaaMP {
@@ -11,7 +12,7 @@ namespace WasaaMP {
         float transparencyValue;
         Color lastColor;
         bool objectHighlighted;
-        float highlightingSpeed = 0.5f;
+        float highlightingSpeed = 1f;
         Renderer objectRenderer;
         protected List<CursorTool> listCursors;
         protected List<CursorTool> listCursorsNotCaught;
@@ -32,7 +33,7 @@ namespace WasaaMP {
                 gameObject.transform.position = averagePosition();
             }
 
-            if (objectHighlighted && listCursorsNotCaught.Count >= numberOfPlayersNeeded) {
+            if (objectHighlighted && listCursorsNotCaught.Count >= numberOfPlayersNeeded && transparencyValue != 0) {
                 transparencyValue = 0;
                 objectRenderer.material.color = new Color(lastColor.r, lastColor.g, lastColor.b, transparencyValue);
                 
@@ -56,7 +57,6 @@ namespace WasaaMP {
             if (!objectHighlighted) {
                 transparencyValue = 1f;}
             objectHighlighted = true;
-            
         }
 
         public void stopHighlight() {
@@ -122,7 +122,7 @@ namespace WasaaMP {
         [PunRPC] public void addCursorListNotCaught(int cursorID) {
             CursorTool cursor = PhotonView.Find(cursorID).gameObject.GetComponent<CursorTool>();
             print("Add List Not Caught " + cursor);
-            if (!listCursorsNotCaught.Contains(cursor)) {
+            if (!listCursorsNotCaught.Contains(cursor) && !listCursors.Contains(cursor)) {
             listCursorsNotCaught.Add(cursor);
             }
         }

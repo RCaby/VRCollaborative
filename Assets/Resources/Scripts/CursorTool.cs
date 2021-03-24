@@ -6,7 +6,12 @@ using Photon.Pun;
 namespace WasaaMP {
 	public class CursorTool : MonoBehaviourPun {
 		private bool caught ;
-		public Interactive interactiveObjectToInstanciate ;
+		public Interactive cyanSphere;
+		public Interactive magentaSphere;
+		public Interactive yellowSphere;
+		public Interactive cyanCube;
+		public Interactive magentaCube;
+		public Interactive yellowCube;
 		private Interactive target ;
 		private MonoBehaviourPun targetParent ;
 		private Transform oldParent = null ;
@@ -52,8 +57,34 @@ namespace WasaaMP {
 			}
 		}
 
-		public void CreateInteractiveCube () {
-			var objectToInstanciate = PhotonNetwork.Instantiate (interactiveObjectToInstanciate.name, transform.position, transform.rotation, 0) ;
+		public void CreateInteractiveObject () {
+			int objectIndex = Random.Range(0, 6);
+			int nbPlayer = Random.Range(1, 3);
+			if (objectIndex == 0) {
+				var objectToInstanciate = PhotonNetwork.Instantiate (cyanCube.name, transform.position, transform.rotation, 0) ;
+				objectToInstanciate.GetComponent<Interactive>().numberOfPlayersNeeded = nbPlayer;
+			} else if (objectIndex == 1) {
+				var objectToInstanciate = PhotonNetwork.Instantiate (magentaCube.name, transform.position, transform.rotation, 0) ;
+				objectToInstanciate.GetComponent<Interactive>().numberOfPlayersNeeded = nbPlayer;
+			} else if (objectIndex == 2) {
+				var objectToInstanciate = PhotonNetwork.Instantiate (yellowCube.name, transform.position, transform.rotation, 0) ;
+				objectToInstanciate.GetComponent<Interactive>().numberOfPlayersNeeded = nbPlayer;
+			} else if (objectIndex == 3) {
+				var objectToInstanciate = PhotonNetwork.Instantiate (cyanSphere.name, transform.position, transform.rotation, 0) ;
+				objectToInstanciate.GetComponent<Interactive>().numberOfPlayersNeeded = nbPlayer;
+			} else if (objectIndex == 4) {
+				var objectToInstanciate = PhotonNetwork.Instantiate (magentaSphere.name, transform.position, transform.rotation, 0) ;
+				objectToInstanciate.GetComponent<Interactive>().numberOfPlayersNeeded = nbPlayer;
+			} else if (objectIndex == 5) {
+				var objectToInstanciate = PhotonNetwork.Instantiate (yellowSphere.name, transform.position, transform.rotation, 0) ;
+				objectToInstanciate.GetComponent<Interactive>().numberOfPlayersNeeded = nbPlayer;
+			} else {
+				var objectToInstanciate = PhotonNetwork.Instantiate (cyanCube.name, transform.position, transform.rotation, 0) ;
+				objectToInstanciate.GetComponent<Interactive>().numberOfPlayersNeeded = nbPlayer;
+			}
+			
+			
+			
 		}
 
 		void OnTriggerEnter (Collider other) {

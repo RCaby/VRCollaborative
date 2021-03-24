@@ -146,7 +146,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d094e80ff20cc303856e5a582ce6833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactiveObjectToInstanciate: {fileID: 1804109506646718897, guid: 56011ad6f3c349a498e12dec882d08db,
+  cyanSphere: {fileID: 6599104188528134705, guid: ec127c090ef63c144b3afaa190a05a8d,
+    type: 3}
+  magentaSphere: {fileID: 1051759844158532310, guid: 71e89b0b804f4be46b20890da6b7e275,
+    type: 3}
+  yellowSphere: {fileID: 5550222610916256823, guid: f4a6a92bc85e3c346aa14febfe27f140,
+    type: 3}
+  cyanCube: {fileID: 1362084029715893742, guid: 23b96eb237466b94ba2711163a4e5345,
+    type: 3}
+  magentaCube: {fileID: 6112665759432242255, guid: 23801f4814ceaf143984c7cdd90edaa2,
+    type: 3}
+  yellowCube: {fileID: 4664649081571239521, guid: f86e1cbe4d4b5dd4299d36cf1e2d3ccc,
     type: 3}
 --- !u!114 &369267786001981739
 MonoBehaviour:
